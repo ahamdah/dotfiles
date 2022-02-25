@@ -21,7 +21,7 @@ i am using [z-shell](https://www.zsh.org/) instead of bash.
 
 bash come a default option for ubuntu. 
 
-so you need to download it (you will fine it in apt package manager).
+so you need to download it (you will find it in apt package manager).
 
 
 --- 
