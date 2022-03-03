@@ -41,7 +41,7 @@ alias zshconfig="n ~/.zshrc"
 alias ohmyzsh="n ~/.oh-my-zsh"
 alias n="nvim"
 alias start="explorer.exe .";
-
+alias nvimconfig"n ~/.config/nvim/init.vim"
 
 bindkey '^H' backward-kill-word
 bindkey '^[[3;5~' kill-word
@@ -49,6 +49,11 @@ bindkey '^[[3;5~' kill-word
 
 #https://stackoverflow.com/questions/5407916/zsh-zle-shift-selection
 
+_fix_cursor() {
+   echo -ne '\e[5 q'
+}
+
+precmd_functions+=(_fix_cursor)
 
 r-delregion() {
   if ((REGION_ACTIVE)) then
