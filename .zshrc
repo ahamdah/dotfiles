@@ -16,11 +16,8 @@ DISABLE_AUTO_TITLE="true"
 
 plugins=(
     git 
-    zsh-syntax-highlighting
-    zsh-autosuggestions
     sudo
     web-search
-    copydir
     copyfile
     tmux
     copybuffer
@@ -118,3 +115,8 @@ for key     kcap   seq        mode   widget (
   zle -N key-$key
   bindkey ${terminfo[$kcap]-$seq} key-$key
 }
+source /home/ahamdah/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

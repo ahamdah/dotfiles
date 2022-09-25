@@ -1,28 +1,29 @@
-# Ahmad Fahad 🧛‍
+# Ahmad Fahad 👨‍🎓
 
-my configuration and plugin for z shell.👀
-
-i am  using tool for managing my Zsh configuration **[Oh-My-Zsh](https://ohmyz.sh/) .**
-
-its provide a  bundled with plugins and  themes and more tihngs we will use it .
+---
+# Windows <div style="color: #e95420">subsystem configuration</div>
+#### Installing **[<u>Ubuntu</u>](https://apps.microsoft.com/store/detail/ubuntu/9PDXGNCFSCZV)**.
 
 ## Terminal
 
-#### i am using **[Windows Terminal](https://www.microsoft.com/store/productId/9N0DX20HK701)** emulator.
+#### Windows Terminal emulator **[install](https://www.microsoft.com/store/productId/9N0DX20HK701)** .
 
 
 ![ ](https://media.discordapp.net/attachments/675114478949498921/946599513924194344/unknown.png?width=1214&height=683)
 
-##### i am using **[Dracula Theme](https://draculatheme.com/windows-terminal)**  you can check Their website to set it up
+##### Theme install ( **[Dracula Theme](https://draculatheme.com/windows-terminal)**)
+
 
 ## Shell
+#### Installing **[<u>z-shell</u>](https://gist.github.com/derhuerst/12a1558a4b408b3b2b6e)**.
 
-i am using [z-shell](https://www.zsh.org/) instead of bash.
-
-bash come a default option for ubuntu. 
-
-so you need to download it (you will find it in apt package manager).
-
+```shell
+sudo apt update
+sudo apt upgrade
+sudo apt install zsh
+```
+#### Installing [Oh-My-Zsh](https://ohmyz.sh/) .
+oh my Zsh is tool i used it to manage Zsh configuration and its provide  bundled with plugins and themes...
 
 --- 
 
