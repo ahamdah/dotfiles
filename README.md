@@ -46,7 +46,6 @@ to install it put _**`ZSH_THEME="re5et"`**_ in _~/.zshrc file_.
 | zsh-autosuggestions  |
 |  sudo |
 |web-search|   
-|copydir|
 |copyfile|
 |tmux|
 |copybuffer|
@@ -86,7 +85,6 @@ plugins=(
     zsh-autosuggestions
     sudo
     web-search
-    copydir
     copyfile
     tmux
     copybuffer
