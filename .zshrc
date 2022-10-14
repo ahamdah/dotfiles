@@ -6,7 +6,6 @@ export PATH="$HOME/.local/bin:$PATH"
 #Themes 
 ZSH_THEME="re5et"
 
-
 zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 
@@ -16,6 +15,8 @@ DISABLE_AUTO_TITLE="true"
 
 plugins=(
     git 
+    zsh-syntax-highlighting
+    zsh-autosuggestions
     sudo
     web-search
     copyfile
@@ -38,7 +39,7 @@ alias zshconfig="n ~/.zshrc"
 alias ohmyzsh="n ~/.oh-my-zsh"
 alias n="nvim"
 alias start="explorer.exe .";
-alias nvimconfig"n ~/.config/nvim/init.vim"
+
 
 bindkey '^H' backward-kill-word
 bindkey '^[[3;5~' kill-word
@@ -46,11 +47,6 @@ bindkey '^[[3;5~' kill-word
 
 #https://stackoverflow.com/questions/5407916/zsh-zle-shift-selection
 
-_fix_cursor() {
-   echo -ne '\e[5 q'
-}
-
-precmd_functions+=(_fix_cursor)
 
 r-delregion() {
   if ((REGION_ACTIVE)) then
@@ -115,8 +111,3 @@ for key     kcap   seq        mode   widget (
   zle -N key-$key
   bindkey ${terminfo[$kcap]-$seq} key-$key
 }
-source /home/ahamdah/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

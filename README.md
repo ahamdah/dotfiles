@@ -20,7 +20,7 @@
 ```shell
 sudo apt update
 sudo apt upgrade
-sudo apt install zsh
+sudo apt install zsh -y
 ```
 #### Installing [Oh-My-Zsh](https://ohmyz.sh/) .
 oh my Zsh is tool i used it to manage Zsh configuration and its provide  bundled with plugins and themes...
