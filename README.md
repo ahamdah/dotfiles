@@ -91,6 +91,7 @@ plugins=(
     dirhistory
     vscode
     history
+    kubectl
 )
 source $ZSH/oh-my-zsh.sh
 
