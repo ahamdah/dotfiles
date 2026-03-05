@@ -1,10 +1,23 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# ZSH_THEME="spaceship"
+
 #Path
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-#Themes 
-ZSH_THEME="re5et"
 
 zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
@@ -40,6 +53,22 @@ alias zshconfig="n ~/.zshrc"
 alias ohmyzsh="n ~/.oh-my-zsh"
 alias n="nvim"
 alias start="explorer.exe .";
+
+# Modern CLI tools aliases
+alias ls="eza --icons"
+alias ll="eza -l --icons --icons"
+alias la="eza -la --icons"
+alias cat="bat --style=auto"
+alias rg="ripgrep"
+
+# Starship prompt
+eval "$(starship init zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"
+
+# fzf
+[ -f "$HOME/.fzf.zsh" ] && source "$HOME/.fzf.zsh"
 
 
 bindkey '^H' backward-kill-word
@@ -112,3 +141,7 @@ for key     kcap   seq        mode   widget (
   zle -N key-$key
   bindkey ${terminfo[$kcap]-$seq} key-$key
 }
+
+
+# Added by Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
