@@ -1,0 +1,97 @@
+{
+  // ── Editor ─────────────────────────────────────────────────────────────────
+  "editor.fontSize": 16,
+  "editor.fontFamily": "'Cascadia Code NF', 'Cascadia Code', 'FiraCode Nerd Font', Menlo, monospace",
+  "editor.fontLigatures": "'ss01', 'ss02', 'ss03', 'ss19', 'ss20'",
+  "editor.lineHeight": 1.6,
+  "editor.letterSpacing": 0.3,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "editor.wordWrap": "off",
+  "editor.rulers": [80, 120],
+  "editor.renderWhitespace": "selection",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.stickyScroll.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.inlineSuggest.enabled": true,
+  "editor.accessibilitySupport": "off",
+  "editor.minimap.enabled": false,
+  "editor.bracketPairColorization.enabled": true,
+
+  // ── Workbench ──────────────────────────────────────────────────────────────
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.startupEditor": "none",
+  "workbench.layoutControl.enabled": false,
+  "workbench.tree.indent": 16,
+  "workbench.tree.renderIndentGuides": "always",
+
+  // ── Terminal ───────────────────────────────────────────────────────────────
+  "terminal.integrated.fontFamily": "'Cascadia Code NF', 'FiraCode Nerd Font Mono', monospace",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.lineHeight": 1.2,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+
+  // ── Git ────────────────────────────────────────────────────────────────────
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  // ── Explorer ───────────────────────────────────────────────────────────────
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  // ── Language-specific ─────────────────────────────────────────────────────
+  "[python]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[javascript][typescript][javascriptreact][typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json][jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": false
+  },
+
+  // ── Vim ────────────────────────────────────────────────────────────────────
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+
+  // ── Misc ─────────────────────────────────────────────────────────────────
+  "diffEditor.ignoreTrimWhitespace": false,
+  "redhat.telemetry.enabled": false,
+  "aws.telemetry": false,
+
+  // ── YAML (CloudFormation) ─────────────────────────────────────────────────
+  "yaml.customTags": [
+    "!And", "!And sequence",
+    "!If", "!If sequence",
+    "!Not", "!Not sequence",
+    "!Equals", "!Equals sequence",
+    "!Or", "!Or sequence",
+    "!FindInMap", "!FindInMap sequence",
+    "!Base64",
+    "!Join", "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub", "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue", "!ImportValue sequence",
+    "!Select", "!Select sequence",
+    "!Split", "!Split sequence"
+  ]
+}

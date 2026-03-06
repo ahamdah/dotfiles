@@ -1,0 +1,72 @@
+[user]
+  name  = AhmdFahad
+  email = ahmd66699@gmail.com
+
+[core]
+  editor        = nvim
+  excludesfile  = ~/.gitignore_global
+  autocrlf      = input          # LF on commit, keep as-is on checkout
+  pager         = delta          # use delta if installed, falls back gracefully
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = true                  # rebase by default on pull
+
+[push]
+  default       = current        # push to same-name remote branch
+  autoSetupRemote = true         # auto --set-upstream on first push
+
+[rebase]
+  autoStash = true               # stash dirty state before rebase
+
+[merge]
+  tool = nvim
+
+[diff]
+  colorMoved = default
+
+# ── Delta (pretty diffs) ─────────────────────────────────────────────────────
+[delta]
+  navigate    = true
+  light       = false
+  side-by-side = true
+  line-numbers = true
+  syntax-theme = Catppuccin Mocha
+
+[interactive]
+  diffFilter = delta --color-only
+
+# ── Aliases ───────────────────────────────────────────────────────────────────
+[alias]
+  st   = status -sb
+  co   = checkout
+  cb   = checkout -b
+  br   = branch
+  d    = diff
+  ds   = diff --staged
+  lg   = log --oneline --graph --decorate --all
+  undo = reset --soft HEAD~1
+  unstage = reset HEAD --
+  last = log -1 HEAD --stat
+  aliases = config --get-regexp '^alias\\.'
+  whoami  = config user.email
+  contributors = shortlog -sn --no-merges
+
+# ── URL shortcuts ─────────────────────────────────────────────────────────────
+[url "git@github.com:"]
+  insteadOf = gh:
+
+[url "git@gitlab.com:"]
+  insteadOf = gl:
+
+# ── Colors ────────────────────────────────────────────────────────────────────
+[color]
+  ui = true
+
+[color "diff-highlight"]
+  oldNormal    = red bold
+  oldHighlight = red bold 52
+  newNormal    = green bold
+  newHighlight = green bold 22

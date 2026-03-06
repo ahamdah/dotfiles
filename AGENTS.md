@@ -1,191 +1,114 @@
-# AGENTS.md - Development Environment Configuration
+# AGENTS.md — Dotfiles Development Environment
 
-This repository contains personal dotfiles for managing development environment configuration across Windows WSL/Ubuntu, including shell configuration, VS Code settings, and Docker setup.
+This repository manages personal development environment configuration across **macOS**, **Ubuntu/Linux**, and **WSL2**.
 
 ## Repository Structure
 
 ```
-.
-├── shell/                  # Shell configurations
-│   ├── .zshrc             # Zsh shell configuration
-│   └── .tmux.conf        # Tmux configuration
-├── config/                # Editor/IDE configurations
-│   └── vscode/           # VS Code settings
-│       ├── settings.json
-│       ├── keybindings.json
-│       └── extensions.json
-├── scripts/               # Setup and automation scripts
-│   └── setup.sh          # Main setup script
-├── Dockerfile            # Development container (Ubuntu 22.04)
-├── instal.sh             # Initial setup script for Ubuntu/WSL
-├── README.md             # Documentation
-├── windowsTerminalSetting.md  # Windows Terminal configuration
-└── script.ps1            # PowerShell scripts
+dotfiles/
+├── shell/
+│   ├── .zshrc              ← Sources all modules below
+│   ├── exports.zsh         ← PATH, env vars, tool exports
+│   ├── aliases.zsh         ← Aliases (cross-platform guarded)
+│   ├── plugins.zsh         ← OMZ plugin list + theme
+│   ├── keybindings.zsh     ← bindkey + ZLE widgets
+│   └── .tmux.conf          ← Tmux (Catppuccin theme, TPM)
+├── config/
+│   ├── starship.toml       ← Starship prompt (Catppuccin)
+│   ├── git/
+│   │   ├── .gitconfig
+│   │   └── .gitignore_global
+│   ├── vscode/
+│   │   ├── settings.json
+│   │   └── keybindings.json
+│   └── windows-terminal/
+│       └── settings.json
+├── scripts/
+│   ├── setup.sh            ← Full installer (macOS + Linux)
+│   └── link.sh             ← Symlinks only
+├── Makefile                ← Entry point
+├── Dockerfile              ← Ubuntu 22.04 test container
+└── README.md
 ```
 
-## Build/Lint/Test Commands
-
-This is a **configuration repository**, not a compiled project. There are no traditional build commands.
-
-### Running Setup Script
+## Commands
 
 ```bash
-# Run the setup script to install everything
-./scripts/setup.sh
+make install      # Install tools + link dotfiles
+make link         # Create symlinks only
+make link-force   # Overwrite existing symlinks
+make update       # git pull + re-link
+make check        # Validate all shell scripts + JSON
+make clean        # Remove all symlinks
+```
 
-# Or in Docker
+### Docker test
+
+```bash
 docker build -t dotfiles-dev .
 docker run --rm dotfiles-dev
 ```
 
-### Shell Script Validation
-
-For shell scripts in `scripts/` and `shell/`:
+### Manual validation
 
 ```bash
-# Check shell script syntax
 bash -n scripts/setup.sh
-
-# Lint shell scripts
-shellcheck scripts/setup.sh
+bash -n scripts/link.sh
+bash -n shell/.zshrc
+shellcheck scripts/setup.sh   # if shellcheck installed
 ```
-
-### VS Code Configuration
-
-- Settings are in `config/vscode/settings.json`
-- Keybindings are in `config/vscode/keybindings.json`
-- Extensions are listed in `config/vscode/extensions.json`
 
 ---
 
-## Code Style Guidelines
+## Code Style
 
-### General Principles
+### Shell Scripts
 
-1. **Configuration over code** - This repo stores configuration, not application logic
-2. **Keep it modular** - Group related settings together
-3. **Document unusual settings** - Add comments for non-obvious configurations
+- `set -euo pipefail` at the top of every script
+- 2-space indentation
+- `snake_case` for variables, `UPPER_CASE` for env vars
+- `[[ ]]` not `[ ]` for conditions
+- Quote all variable expansions: `"$var"`
+- `$(...)` not backticks for substitution
 
-### Shell Scripts (.zshrc, setup.sh)
+### Zsh Module Order (`.zshrc`)
 
-- Use **2 spaces** for indentation
-- Use **lowercase** with underscores for variable names: `my_var="value"`
-- Use UPPERCASE for environment variables: `export PATH="$HOME/bin:$PATH"`
-- Always quote variables containing paths: `"$HOME/.oh-my-zsh"`
-- Use `$(command)` for command substitution (not backticks)
-- Add spaces around `=` in conditionals: `if [[ $var == "value" ]]`
-- Use `[[ ]]` for tests (not `[ ]`)
-- Add semicolons for one-liners: `alias n="nvim";`
+1. `exports.zsh` — PATH and env vars first
+2. `plugins.zsh` — OMZ config + source
+3. `aliases.zsh` — depends on tools being in PATH
+4. `keybindings.zsh` — ZLE widgets last
 
-### Example (from shell/.zshrc)
-
-```zsh
-# Good
-export PATH="$HOME/.local/bin:$PATH"
-alias n="nvim"
-
-# Bad
-export PATH=$HOME/.local/bin:$PATH
-alias n="nvim"
-```
-
-### Functions
+### Cross-platform Guards
 
 ```zsh
-# Function definition style
-function_name() {
-  local var="$1"
-  if [[ -z "$var" ]]; then
-    return 1
-  fi
-  echo "$var"
-}
+# macOS-only
+if [[ "$(uname)" == "Darwin" ]]; then
+  ...
+fi
+
+# WSL-only
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  ...
+fi
 ```
-
-### Zsh-Specific Patterns
-
-- Use `zstyle` for Oh-My-Zsh configuration management
-- Define keybindings with `bindkey`
-- Use ZLE widgets for custom shell behavior
-- Plugins go in the `plugins=()` array, one per line
-
-### Tmux Configuration
-
-- Prefix key: `Ctrl+a` (instead of default `Ctrl+b`)
-- Enable mouse mode
-- Use TPM plugins for plugin management
-- Configure panes with current working directory
-
-### JSON (VS Code Settings)
-
-- Use **2 spaces** for indentation
-- Always include trailing commas except for last item
-- Sort keys alphabetically within groups
-- Group related settings under shared keys
-
-### Dockerfile
-
-- Use **Ubuntu 22.04** as base image
-- Keep instructions minimal
-- Place COPY last (for better caching)
-
-### Naming Conventions
-
-| Type | Convention | Example |
-|------|------------|---------|
-| Aliases | Short, memorable | `alias n="nvim"` |
-| Functions | snake_case | `r-delregion()` |
-| Environment vars | UPPER_SNAKE_CASE | `ZSH="$HOME/.oh-my-zsh"` |
-| Local variables | snake_case | `local widget_name="$1"` |
-| Files | kebab-case or descriptive | `setup.sh`, `windowsTerminalSetting.md` |
-
-### Error Handling
-
-- Shell scripts: Use `set -e` for strict error handling if needed
-- Commands ending with `;` or `\` for continuation
-- Check return codes for critical operations
-
-### Comments
-
-- Use comments to explain non-obvious configurations
-- Document keybindings and their purposes
-- Reference external documentation where helpful
-
-```zsh
-# Example comments style
-# Bind Ctrl+H to backward-kill-word
-bindkey '^H' backward-kill-word
-```
-
-### Import Order (for shell/.zshrc)
-
-1. PATH and environment variables
-2. Theme configuration
-3. Oh-My-Zsh settings
-4. Plugin list
-5. Source Oh-My-Zsh
-6. User configuration
-7. Aliases
-8. Keybindings
-9. Custom functions
 
 ---
 
-## Editor Configuration
+## Editor Setup
 
-The VS Code settings use:
-- **Font**: Cascadia Code, 20px
-- **Theme**: Vim Dark Medium
-- **Format on save**: Enabled
-- **Vim mode**: Enabled with system clipboard
+- **Font**: Cascadia Code NF (Nerd Font), 16px, ligatures on
+- **Theme**: Catppuccin Mocha
+- **Icons**: Catppuccin Mocha icon theme
+- **Format on save**: enabled
 
----
+## Key Tool Notes
 
-## Additional Notes
-
-- This configuration is optimized for **WSL (Windows Subsystem for Linux)** / Ubuntu
-- The `shell/.zshrc` includes custom ZLE widgets for shift-selection behavior
-- Some settings are Windows-specific (e.g., `explorer.exe`)
-- Custom YAML tags are defined for AWS CloudFormation support
-- Tmux is configured with TPM plugins (tpm, sensible, resurrect, continuum)
-- Run `prefix + I` (Ctrl+a then I) in tmux to install plugins
+| Tool | Note |
+|------|------|
+| `starship` | Configured in `config/starship.toml`, Catppuccin palette |
+| `zoxide` | Replaces `cd` — init'd with `--cmd cd` in `.zshrc` |
+| `eza` | Replaces `ls` — only aliased if binary exists (safe) |
+| `bat` | Replaces `cat` — only aliased if binary exists |
+| `delta` | Git pager — configured in `config/git/.gitconfig` |
+| `nvm` | Sourced in `exports.zsh`, not `.zshrc` directly |
+| `tmux` | Prefix is `Ctrl+a`; plugins auto-restore sessions |

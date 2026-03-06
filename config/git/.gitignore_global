@@ -1,0 +1,90 @@
+# =============================================================================
+# .gitignore_global — Patterns ignored in all git repos on this machine
+# =============================================================================
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon?
+
+# ── Windows ───────────────────────────────────────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Linux ─────────────────────────────────────────────────────────────────────
+*~
+.directory
+.Trash-*
+
+# ── Editors ───────────────────────────────────────────────────────────────────
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Vim / Neovim
+*.swp
+*.swo
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+Session.vim
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+
+# ── Languages & Runtimes ──────────────────────────────────────────────────────
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log
+.pnp.*
+.yarn/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.Python
+*.egg-info/
+
+# Rust
+/target/
+
+# Java
+*.class
+*.jar
+*.war
+
+# ── Secrets & Environment ─────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ── Logs & Temp ───────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.temp
+.cache/
