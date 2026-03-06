@@ -22,6 +22,7 @@ _source exports.zsh     # PATH, env vars, tool exports
 _source plugins.zsh     # OMZ theme, plugin list, source OMZ
 _source aliases.zsh     # all aliases (OS-aware)
 _source keybindings.zsh # bindkey + ZLE widgets
+_source functions.zsh   # shell functions (mkcd, extract, serve, etc.)
 
 # ── Prompt: Starship ─────────────────────────────────────────────────────────
 if command -v starship &>/dev/null; then

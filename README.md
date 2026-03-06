@@ -47,6 +47,8 @@ make install      # Install everything + symlink dotfiles
 make link         # Symlink dotfiles only (no package installs)
 make update       # Pull latest + re-link
 make check        # Validate all shell scripts and JSON configs
+make macos        # Apply macOS system defaults (macOS only)
+make brew-bundle  # Install all apps from Brewfile (macOS only)
 make clean        # Remove all symlinks
 ```
 
@@ -58,30 +60,44 @@ make clean        # Remove all symlinks
 dotfiles/
 ├── shell/
 │   ├── .zshrc              ← Entry point (sources modules)
+│   ├── .zshenv             ← Non-interactive PATH (cron, scripts)
 │   ├── exports.zsh         ← PATH & environment variables
 │   ├── aliases.zsh         ← Aliases (OS-aware)
 │   ├── plugins.zsh         ← Oh My Zsh plugins & theme
 │   ├── keybindings.zsh     ← bindkey & ZLE widgets
+│   ├── functions.zsh       ← mkcd, extract, fcd, serve, fs, fo…
 │   └── .tmux.conf          ← Tmux config (Catppuccin theme)
 │
 ├── config/
 │   ├── starship.toml       ← Starship prompt
+│   ├── nvim/               ← Neovim (lazy.nvim + LSP + Catppuccin)
+│   │   ├── init.lua
+│   │   └── lua/
+│   │       ├── config/     ← options, keymaps, autocmds
+│   │       └── plugins/    ← all plugin specs
 │   ├── git/
 │   │   ├── .gitconfig      ← Global git config + aliases
 │   │   └── .gitignore_global
 │   ├── vscode/
 │   │   ├── settings.json
-│   │   └── keybindings.json
+│   │   ├── keybindings.json
+│   │   └── install-extensions.sh ← portable extension installer
 │   └── windows-terminal/
 │       └── settings.json
 │
 ├── scripts/
 │   ├── setup.sh            ← Full installer (macOS + Linux)
-│   └── link.sh             ← Symlinks only
+│   ├── link.sh             ← Symlinks only
+│   ├── macos.sh            ← macOS system defaults
+│   └── brew-bundle/
+│       └── Brewfile        ← All Homebrew apps
 │
+├── .github/
+│   └── workflows/
+│       └── check.yml       ← CI: validates all scripts on push
 ├── Makefile                ← Entry point
-├── Dockerfile              ← Test in Ubuntu container
-└── AGENTS.md               ← Dev environment notes
+├── Dockerfile              ← Ubuntu container for testing
+└── README.md
 ```
 
 ---

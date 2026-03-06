@@ -1,0 +1,97 @@
+name: Check Dotfiles
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  validate:
+    name: Validate Scripts & Configs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install zsh
+        run: sudo apt-get install -y zsh
+
+      - name: Validate bash scripts
+        run: |
+          echo "Checking bash scripts..."
+          bash -n scripts/setup.sh  && echo "  ✓ setup.sh"
+          bash -n scripts/link.sh   && echo "  ✓ link.sh"
+          bash -n scripts/macos.sh  && echo "  ✓ macos.sh"
+          bash -n config/vscode/install-extensions.sh && echo "  ✓ install-extensions.sh"
+
+      - name: Validate zsh scripts
+        run: |
+          echo "Checking zsh scripts..."
+          zsh -n shell/.zshrc             && echo "  ✓ shell/.zshrc"
+          zsh -n shell/.zshenv            && echo "  ✓ shell/.zshenv"
+          zsh -n shell/exports.zsh        && echo "  ✓ shell/exports.zsh"
+          zsh -n shell/aliases.zsh        && echo "  ✓ shell/aliases.zsh"
+          zsh -n shell/plugins.zsh        && echo "  ✓ shell/plugins.zsh"
+          zsh -n shell/keybindings.zsh    && echo "  ✓ shell/keybindings.zsh"
+          zsh -n shell/functions.zsh      && echo "  ✓ shell/functions.zsh"
+
+      - name: Validate JSON configs
+        run: |
+          echo "Checking JSON configs..."
+          python3 -m json.tool config/vscode/keybindings.json > /dev/null \
+            && echo "  ✓ vscode/keybindings.json"
+
+      - name: Validate TOML configs
+        run: |
+          echo "Checking TOML configs..."
+          python3 -c "
+          import sys
+          try:
+            import tomllib
+          except ImportError:
+            import tomli as tomllib
+          with open('config/starship.toml', 'rb') as f:
+            tomllib.load(f)
+          print('  ✓ config/starship.toml')
+          " || python3 -c "
+          # Fallback: just check it's not empty
+          import os
+          size = os.path.getsize('config/starship.toml')
+          assert size > 0, 'starship.toml is empty'
+          print('  ✓ config/starship.toml (size check)')
+          "
+
+      - name: Check Shellcheck (optional but nice)
+        run: |
+          sudo apt-get install -y shellcheck
+          shellcheck -S warning scripts/setup.sh scripts/link.sh \
+            && echo "  ✓ shellcheck passed"
+        continue-on-error: true   # Don't fail the whole workflow on style warnings
+
+      - name: Verify required files exist
+        run: |
+          echo "Checking required files exist..."
+          required_files=(
+            "Makefile"
+            "README.md"
+            "shell/.zshrc"
+            "shell/.zshenv"
+            "shell/exports.zsh"
+            "shell/aliases.zsh"
+            "shell/plugins.zsh"
+            "shell/keybindings.zsh"
+            "shell/functions.zsh"
+            "shell/.tmux.conf"
+            "config/starship.toml"
+            "config/git/.gitconfig"
+            "config/git/.gitignore_global"
+            "config/vscode/settings.json"
+            "config/vscode/keybindings.json"
+            "scripts/setup.sh"
+            "scripts/link.sh"
+          )
+          for f in "${required_files[@]}"; do
+            [[ -f "$f" ]] && echo "  ✓ $f" || { echo "  ✗ MISSING: $f"; exit 1; }
+          done

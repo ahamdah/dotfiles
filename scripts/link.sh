@@ -56,11 +56,13 @@ link() {
 echo -e "\n${BOLD}=== Dotfiles Symlink Setup ===${RESET}\n"
 
 # Shell
+link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
 link "$DOTFILES_DIR/shell/.zshrc"     "$HOME/.zshrc"
 link "$DOTFILES_DIR/shell/exports.zsh"     "$HOME/.config/zsh/exports.zsh"
 link "$DOTFILES_DIR/shell/aliases.zsh"     "$HOME/.config/zsh/aliases.zsh"
 link "$DOTFILES_DIR/shell/plugins.zsh"     "$HOME/.config/zsh/plugins.zsh"
 link "$DOTFILES_DIR/shell/keybindings.zsh" "$HOME/.config/zsh/keybindings.zsh"
+link "$DOTFILES_DIR/shell/functions.zsh"   "$HOME/.config/zsh/functions.zsh"
 link "$DOTFILES_DIR/shell/.tmux.conf" "$HOME/.tmux.conf"
 
 # Starship
@@ -69,6 +71,9 @@ link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
 # Git
 link "$DOTFILES_DIR/config/git/.gitconfig"       "$HOME/.gitconfig"
 link "$DOTFILES_DIR/config/git/.gitignore_global" "$HOME/.gitignore_global"
+
+# Neovim
+link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
 # VS Code — path differs by OS
 if [[ "$(uname)" == "Darwin" ]]; then

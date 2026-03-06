@@ -19,6 +19,12 @@ help: ## Show available targets
 install: ## Install all tools + create symlinks
 	@bash $(SCRIPTS_DIR)/setup.sh
 
+macos: ## Apply macOS system defaults (macOS only)
+	@bash $(SCRIPTS_DIR)/macos.sh
+
+brew-bundle: ## Install all apps from Brewfile (macOS only)
+	@brew bundle --file=$(DOTFILES_DIR)/scripts/brew-bundle/Brewfile
+
 link: ## Create symlinks only (no installs)
 	@bash $(SCRIPTS_DIR)/link.sh
 
@@ -40,6 +46,7 @@ check: ## Validate shell scripts and JSON configs
 	@zsh  -n shell/aliases.zsh        && echo "  ✓ shell/aliases.zsh"
 	@zsh  -n shell/plugins.zsh        && echo "  ✓ shell/plugins.zsh"
 	@zsh  -n shell/keybindings.zsh    && echo "  ✓ shell/keybindings.zsh"
+	@zsh  -n shell/functions.zsh      && echo "  ✓ shell/functions.zsh"
 	@node -e "require('fs').readFileSync('config/vscode/settings.json','utf8')" \
 		&& echo "  ✓ vscode/settings.json (JSONC)"
 	@node -e "require('fs').readFileSync('config/vscode/keybindings.json','utf8')" \

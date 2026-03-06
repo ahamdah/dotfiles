@@ -318,6 +318,13 @@ main() {
   [[ "$PLATFORM" == "macos" ]] && setup_macos
   [[ "$PLATFORM" == "linux" ]] && setup_linux
 
+  # macOS system defaults (optional — prompt user)
+  if [[ "$PLATFORM" == "macos" ]]; then
+    echo ""
+    read -rp "Apply macOS system defaults (keyboard, Dock, Finder)? [y/N] " apply_defaults
+    [[ "$apply_defaults" =~ ^[Yy]$ ]] && bash "$SCRIPT_DIR/macos.sh"
+  fi
+
   # Common
   setup_oh_my_zsh
   setup_zsh_plugins

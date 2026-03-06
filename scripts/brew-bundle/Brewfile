@@ -1,0 +1,73 @@
+# =============================================================================
+# Brewfile — Homebrew bundle for macOS
+# Usage: brew bundle --file=scripts/brew-bundle/Brewfile
+# =============================================================================
+
+# ── Taps ─────────────────────────────────────────────────────────────────────
+tap "homebrew/cask-fonts"
+tap "jesseduffield/lazygit"
+
+# ── Core CLI Tools ────────────────────────────────────────────────────────────
+brew "git"
+brew "curl"
+brew "wget"
+brew "zsh"
+brew "tmux"
+brew "neovim"
+brew "jq"
+brew "yq"           # YAML processor (like jq for YAML)
+brew "rsync"
+brew "tree"
+brew "htop"
+brew "watch"
+brew "gnupg"        # GPG for commit signing
+brew "openssh"
+
+# ── Modern CLI Replacements ───────────────────────────────────────────────────
+brew "eza"          # ls
+brew "bat"          # cat
+brew "ripgrep"      # grep
+brew "fd"           # find
+brew "fzf"          # fuzzy finder
+brew "zoxide"       # smart cd
+brew "delta"        # git diffs
+brew "bottom"       # htop alternative (btm)
+brew "dust"         # du alternative
+brew "procs"        # ps alternative
+
+# ── Developer Tools ───────────────────────────────────────────────────────────
+brew "gh"           # GitHub CLI
+brew "lazygit"      # Git TUI
+brew "starship"     # Prompt
+brew "direnv"       # Per-directory .env files
+brew "act"          # Run GitHub Actions locally
+brew "httpie"       # HTTP client (http/https commands)
+brew "tldr"         # Simplified man pages
+
+# ── Languages & Runtimes ──────────────────────────────────────────────────────
+brew "rustup"       # Rust toolchain manager
+brew "go"           # Go
+brew "node"         # Node.js
+brew "python@3.12"  # Python
+
+# ── DevOps & Cloud ────────────────────────────────────────────────────────────
+brew "docker-completion"
+brew "kubectl"
+brew "helm"
+brew "awscli"
+
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+cask "font-cascadia-code-nf"    # Primary coding font (Nerd Font)
+cask "font-fira-code-nerd-font" # Fallback
+
+# ── GUI Applications ─────────────────────────────────────────────────────────
+cask "visual-studio-code"
+cask "warp"             # Modern terminal
+cask "raycast"          # Spotlight replacement
+cask "iterm2"           # Terminal emulator
+cask "docker"           # Docker Desktop
+cask "arc"              # Browser
+cask "tableplus"        # Database GUI
+cask "postman"          # API client
+cask "obsidian"         # Note-taking
+cask "rectangle"        # Window management (free)
