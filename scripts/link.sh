@@ -52,8 +52,41 @@ link() {
   log_success "Linked: ${dst/$HOME/\~} → ${src/$DOTFILES_DIR/dotfiles}"
 }
 
+# ── Ensure third-party Zsh plugins are installed ─────────────────────────────
+# zsh-autosuggestions and zsh-syntax-highlighting are NOT bundled with OMZ.
+# They must be cloned into $ZSH_CUSTOM/plugins manually.
+ensure_zsh_plugins() {
+  local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+  if [[ ! -d "$zsh_custom/plugins" ]]; then
+    log_warn "Oh My Zsh not found at $zsh_custom — skipping plugin install"
+    return
+  fi
+
+  local plugins=(
+    "zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions.git"
+    "zsh-syntax-highlighting|https://github.com/zsh-users/zsh-syntax-highlighting.git"
+  )
+
+  for entry in "${plugins[@]}"; do
+    local name="${entry%%|*}"
+    local url="${entry##*|}"
+    local dir="$zsh_custom/plugins/$name"
+
+    if [[ -d "$dir" ]]; then
+      log_warn "Already installed: $name"
+    else
+      log_info "Cloning $name..."
+      git clone --depth=1 "$url" "$dir"
+      log_success "Installed: $name"
+    fi
+  done
+}
+
 # ── Symlinks ─────────────────────────────────────────────────────────────────
 echo -e "\n${BOLD}=== Dotfiles Symlink Setup ===${RESET}\n"
+
+ensure_zsh_plugins
 
 # Shell
 link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
