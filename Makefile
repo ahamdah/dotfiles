@@ -31,11 +31,8 @@ link: ## Create symlinks only (no installs)
 link-force: ## Create symlinks, overwriting existing (no backup)
 	@bash $(SCRIPTS_DIR)/link.sh --force
 
-update: ## Pull latest dotfiles + re-link
-	@echo "Pulling latest..."
-	@git pull --rebase
-	@bash $(SCRIPTS_DIR)/link.sh
-	@echo "Done. Run 'exec zsh' to reload your shell."
+update: ## Update all tools + pull latest dotfiles
+	@bash $(SCRIPTS_DIR)/update.sh
 
 check: ## Validate shell scripts and JSON configs
 	@echo "Checking shell scripts..."
