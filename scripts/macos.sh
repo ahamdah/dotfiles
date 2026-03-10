@@ -15,7 +15,7 @@ log_ok()   { echo -e "  ${GREEN}✓${RESET} $1"; }
 # ── Keyboard & Input ──────────────────────────────────────────────────────────
 log_step "Keyboard"
 # Fast key repeat (lower = faster; default 6)
-defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain KeyRepeat -int 6
 defaults write NSGlobalDomain InitialKeyRepeat -int 12
 log_ok "Key repeat: fast"
 
