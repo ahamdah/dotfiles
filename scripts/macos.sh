@@ -38,10 +38,8 @@ log_ok "Trackpad tracking speed: faster"
 
 # ── Dock ──────────────────────────────────────────────────────────────────────
 log_step "Dock"
-defaults write com.apple.dock autohide -bool true
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0.3
-log_ok "Dock: auto-hide with no delay"
+defaults write com.apple.dock autohide -bool false
+log_ok "Dock: visible (not auto-hidden)"
 
 defaults write com.apple.dock tilesize -int 48
 log_ok "Dock: icon size 48px"
