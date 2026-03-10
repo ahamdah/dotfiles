@@ -16,7 +16,7 @@ log_ok()   { echo -e "  ${GREEN}✓${RESET} $1"; }
 log_step "Keyboard"
 # Fast key repeat (lower = faster; default 6)
 defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 14
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
 log_ok "Key repeat: fast"
 
 # Disable press-and-hold for accented characters (enable key repeat in all apps)
