@@ -107,6 +107,7 @@ link_zsh_theme
 link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
 link "$DOTFILES_DIR/shell/.zshrc"     "$HOME/.zshrc"
 link "$DOTFILES_DIR/shell/.tmux.conf" "$HOME/.tmux.conf"
+link "$DOTFILES_DIR/shell/tmux-stats.sh" "$HOME/.tmux-stats.sh"
 
 # Starship
 link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"

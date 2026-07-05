@@ -16,7 +16,13 @@ export PAGER="less"
 # .zshenv already sets the base PATH (user dirs + Homebrew via brew shellenv).
 # Don't prepend system dirs here — that would shadow Homebrew binaries.
 # typeset -U dedupes PATH while keeping the first (highest-priority) entries.
-typeset -U path
+# -g is required: this file is sourced from inside the _source() function in
+# .zshrc, and plain `typeset -U path` there creates a function-local shadow of
+# path/PATH that reverts (to nothing) the moment _source() returns — wiping
+# out /usr/bin, /bin, etc. for the rest of exports.zsh (breaking `tr`, `mv`,
+# and anything else run later in this file, e.g. nvm.sh) even though PATH
+# looks fine again once .zshrc finishes.
+typeset -gU path
 path=("$HOME/.local/bin" "$HOME/bin" "$HOME/.cargo/bin" $path)
 export PATH
 

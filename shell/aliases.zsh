@@ -88,6 +88,9 @@ alias cp="cp -iv"
 alias mv="mv -iv"
 alias rm="rm -iv"
 
+# ── Claude Code ───────────────────────────────────────────────────────────────
+alias cc="claude --dangerously-skip-permissions"
+
 # ── Tmux ─────────────────────────────────────────────────────────────────────
 # -CC: iTerm2 native integration — panes render as real iTerm2 splits so
 # Cmd+A/Cmd+C etc. scope to the focused pane instead of the whole tmux screen.
