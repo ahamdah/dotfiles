@@ -33,6 +33,10 @@ fi
 
 log_step "Detected platform: $PLATFORM (WSL: $IS_WSL)"
 
+# Skip sudo when already root (e.g. inside a container)
+SUDO="sudo"
+[[ "$(id -u)" -eq 0 ]] && SUDO=""
+
 # =============================================================================
 # Package management helpers
 # =============================================================================
@@ -54,19 +58,20 @@ apt_install() {
     log_warn "$pkg already installed"
   else
     log_info "Installing $pkg..."
-    sudo apt-get install -y -qq "$pkg"
+    $SUDO apt-get install -y -qq "$pkg"
     log_success "$pkg installed"
   fi
 }
 
+# Usage: cargo_install <binary> [crate]  (crate defaults to binary name)
 cargo_install() {
-  local pkg="$1"
-  if command -v "$pkg" &>/dev/null; then
-    log_warn "$pkg already installed"
+  local bin="$1" crate="${2:-$1}"
+  if command -v "$bin" &>/dev/null; then
+    log_warn "$bin already installed"
   else
-    log_info "Building $pkg from source (cargo)..."
-    cargo install "$pkg"
-    log_success "$pkg installed"
+    log_info "Building $crate from source (cargo)..."
+    cargo install "$crate"
+    log_success "$bin installed"
   fi
 }
 
@@ -135,7 +140,7 @@ setup_linux() {
   log_step "Linux Setup"
 
   log_info "Updating package lists..."
-  sudo apt-get update -qq
+  $SUDO apt-get update -qq
 
   # Core tools
   log_step "Installing core packages"
@@ -166,8 +171,8 @@ setup_linux() {
   log_step "Installing Rust-based CLI tools"
   cargo_install eza
   cargo_install bat
-  cargo_install rg        # ripgrep
-  cargo_install delta     # git-delta
+  cargo_install rg    ripgrep
+  cargo_install delta git-delta
 
   # fzf
   if [[ ! -d "$HOME/.fzf" ]]; then
@@ -291,7 +296,7 @@ set_default_shell() {
   local zsh_path
   zsh_path="$(command -v zsh)"
 
-  if [[ "$SHELL" == "$zsh_path" ]]; then
+  if [[ "${SHELL:-}" == "$zsh_path" ]]; then
     log_warn "zsh is already the default shell"
     return
   fi

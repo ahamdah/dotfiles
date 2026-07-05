@@ -40,7 +40,9 @@ jobs:
       - name: Validate JSON configs
         run: |
           echo "Checking JSON configs..."
-          python3 -m json.tool config/vscode/keybindings.json > /dev/null \
+          # VS Code configs are JSONC — strip // comment lines before strict parse
+          sed 's|^[[:space:]]*//.*||' config/vscode/keybindings.json \
+            | python3 -m json.tool > /dev/null \
             && echo "  ✓ vscode/keybindings.json"
 
       - name: Validate TOML configs

@@ -6,7 +6,7 @@
   editor        = nvim
   excludesfile  = ~/.gitignore_global
   autocrlf      = input          # LF on commit, keep as-is on checkout
-  pager         = delta          # use delta if installed, falls back gracefully
+  pager         = delta          # pretty diffs — requires delta (installed by setup.sh)
 
 [init]
   defaultBranch = main
@@ -22,7 +22,7 @@
   autoStash = true               # stash dirty state before rebase
 
 [merge]
-  tool = nvim
+  tool = nvimdiff
 
 [diff]
   colorMoved = default
@@ -70,9 +70,10 @@
   oldHighlight = red bold 52
   newNormal    = green bold
   newHighlight = green bold 22
+
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential

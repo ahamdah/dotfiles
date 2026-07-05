@@ -52,8 +52,8 @@ check: ## Validate shell scripts and JSON configs
 
 clean: ## Remove all symlinks created by link.sh
 	@echo "Removing symlinks..."
-	@rm -f ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.gitignore_global
+	@rm -f ~/.zshenv ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.gitignore_global
 	@rm -f ~/.config/starship.toml
-	@rm -f ~/.config/zsh/exports.zsh ~/.config/zsh/aliases.zsh \
-	        ~/.config/zsh/plugins.zsh ~/.config/zsh/keybindings.zsh
+	@[ -L ~/.config/nvim ] && rm -f ~/.config/nvim || true
+	@rm -f ~/.config/zsh/*.zsh   # legacy module links from older link.sh
 	@echo "Done. Your original files (if backed up) are at ~/.*.backup.*"

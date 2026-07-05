@@ -13,15 +13,12 @@ export VISUAL="nvim"
 export PAGER="less"
 
 # ── PATH ──────────────────────────────────────────────────────────────────────
-# Build PATH in one place, ordered by priority (highest first)
-export PATH="\
-$HOME/.local/bin:\
-$HOME/bin:\
-$HOME/.cargo/bin:\
-/usr/local/bin:\
-/usr/bin:\
-/bin:\
-$PATH"
+# .zshenv already sets the base PATH (user dirs + Homebrew via brew shellenv).
+# Don't prepend system dirs here — that would shadow Homebrew binaries.
+# typeset -U dedupes PATH while keeping the first (highest-priority) entries.
+typeset -U path
+path=("$HOME/.local/bin" "$HOME/bin" "$HOME/.cargo/bin" $path)
+export PATH
 
 # ── Oh My Zsh ─────────────────────────────────────────────────────────────────
 export ZSH="$HOME/.oh-my-zsh"
