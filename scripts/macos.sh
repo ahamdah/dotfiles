@@ -8,6 +8,9 @@
 # =============================================================================
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 GREEN='\033[0;32m'; CYAN='\033[0;36m'; BOLD='\033[1m'; RESET='\033[0m'
 log_step() { echo -e "\n${CYAN}${BOLD}▶ $1${RESET}"; }
 log_ok()   { echo -e "  ${GREEN}✓${RESET} $1"; }
@@ -33,7 +36,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 log_ok "Tap to click enabled"
 
-defaults write com.apple.trackpad.scaling -float 1.5
+defaults write -g com.apple.trackpad.scaling -float 1.5
 log_ok "Trackpad tracking speed: faster"
 
 # ── Dock ──────────────────────────────────────────────────────────────────────
@@ -95,9 +98,8 @@ log_ok "Window shadows disabled in screenshots"
 
 # ── Menu Bar & System ─────────────────────────────────────────────────────────
 log_step "System"
-# Show battery percentage
-defaults write com.apple.menuextra.battery ShowPercent -bool true
-log_ok "Battery percentage shown"
+# (Battery percentage moved to Control Center in Big Sur — set it in
+#  System Settings → Control Center → Battery; the old defaults key is dead.)
 
 # Show 24-hour time with seconds
 defaults write com.apple.menuextra.clock DateFormat -string "EEE HH:mm:ss"
@@ -123,6 +125,25 @@ defaults write com.apple.ActivityMonitor ShowCategory -int 0   # All processes
 defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
 log_ok "Activity Monitor: show all, sort by CPU"
+
+# ── iTerm2 ────────────────────────────────────────────────────────────────────
+if [[ -d "/Applications/iTerm.app" ]]; then
+  log_step "iTerm2"
+  # The Gruvbox Dark dynamic profile (config/iterm2/DynamicProfiles/gruvbox.json,
+  # symlinked by link.sh) ships with a fixed Guid — point new windows at it.
+  defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "4EE71605-3A49-42C3-A7F8-5E6B31E5838D"
+  log_ok "Default profile: Gruvbox Dark"
+
+  # Load ALL preferences (General settings, Key Mappings, etc.) from the repo
+  # instead of ~/Library/Preferences, so they're version-controlled and follow
+  # you to a new machine. iTerm2 auto-exports changes back to this file on quit
+  # (SavePrefsMode 0 = OnQuit), so editing settings in the GUI keeps it in sync.
+  defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/config/iterm2/preferences"
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+  defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile_selection -int 0
+  defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile -bool true
+  log_ok "Preferences loaded from config/iterm2/preferences/ (restart iTerm2 to apply)"
+fi
 
 # ── Restart affected apps ─────────────────────────────────────────────────────
 log_step "Restarting affected system processes"
