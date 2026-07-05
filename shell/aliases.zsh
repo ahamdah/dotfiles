@@ -89,9 +89,11 @@ alias mv="mv -iv"
 alias rm="rm -iv"
 
 # ── Tmux ─────────────────────────────────────────────────────────────────────
-alias ta="tmux attach -t"
+# -CC: iTerm2 native integration — panes render as real iTerm2 splits so
+# Cmd+A/Cmd+C etc. scope to the focused pane instead of the whole tmux screen.
+alias ta="tmux -CC attach -t"
 alias tls="tmux list-sessions"
-alias tn="tmux new-session -s"
+alias tn="tmux -CC new-session -s"
 alias tk="tmux kill-session -t"
 
 # ── Platform-specific ────────────────────────────────────────────────────────

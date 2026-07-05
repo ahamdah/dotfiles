@@ -102,13 +102,10 @@ ensure_zsh_plugins
 link_zsh_theme
 
 # Shell
+# (.zshrc resolves its own symlink and sources the *.zsh modules straight from
+#  the repo's shell/ dir, so the modules themselves don't need linking.)
 link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
 link "$DOTFILES_DIR/shell/.zshrc"     "$HOME/.zshrc"
-link "$DOTFILES_DIR/shell/exports.zsh"     "$HOME/.config/zsh/exports.zsh"
-link "$DOTFILES_DIR/shell/aliases.zsh"     "$HOME/.config/zsh/aliases.zsh"
-link "$DOTFILES_DIR/shell/plugins.zsh"     "$HOME/.config/zsh/plugins.zsh"
-link "$DOTFILES_DIR/shell/keybindings.zsh" "$HOME/.config/zsh/keybindings.zsh"
-link "$DOTFILES_DIR/shell/functions.zsh"   "$HOME/.config/zsh/functions.zsh"
 link "$DOTFILES_DIR/shell/.tmux.conf" "$HOME/.tmux.conf"
 
 # Starship
