@@ -93,5 +93,6 @@
     "!ImportValue", "!ImportValue sequence",
     "!Select", "!Select sequence",
     "!Split", "!Split sequence"
-  ]
+  ],
+  "tabnine.experimentalAutoImports": true
 }

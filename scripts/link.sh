@@ -83,10 +83,23 @@ ensure_zsh_plugins() {
   done
 }
 
+# ── Symlink the custom Gruvbox Oh My Zsh theme ────────────────────────────────
+link_zsh_theme() {
+  local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+  if [[ ! -d "$zsh_custom/themes" ]]; then
+    log_warn "Oh My Zsh not found at $zsh_custom — skipping theme install"
+    return
+  fi
+
+  link "$DOTFILES_DIR/shell/gruvbox.zsh-theme" "$zsh_custom/themes/gruvbox.zsh-theme"
+}
+
 # ── Symlinks ─────────────────────────────────────────────────────────────────
 echo -e "\n${BOLD}=== Dotfiles Symlink Setup ===${RESET}\n"
 
 ensure_zsh_plugins
+link_zsh_theme
 
 # Shell
 link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
@@ -100,6 +113,12 @@ link "$DOTFILES_DIR/shell/.tmux.conf" "$HOME/.tmux.conf"
 
 # Starship
 link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
+
+# iTerm2 — Gruvbox Dark dynamic profile (macOS only)
+if [[ "$(uname)" == "Darwin" && -d "/Applications/iTerm.app" ]]; then
+  link "$DOTFILES_DIR/config/iterm2/DynamicProfiles/gruvbox.json" \
+       "$HOME/Library/Application Support/iTerm2/DynamicProfiles/gruvbox.json"
+fi
 
 # Git
 link "$DOTFILES_DIR/config/git/.gitconfig"       "$HOME/.gitconfig"

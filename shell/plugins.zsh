@@ -4,9 +4,9 @@
 # =============================================================================
 
 # ── Theme ─────────────────────────────────────────────────────────────────────
-# Using Starship instead of an OMZ theme for cross-shell consistency.
-# Set to empty string to disable OMZ's theme (Starship handles the prompt).
-ZSH_THEME=""
+# Custom Gruvbox Dark theme (shell/gruvbox.zsh-theme, symlinked by link.sh into
+# $ZSH_CUSTOM/themes). Starship is no longer used for the zsh prompt.
+ZSH_THEME="gruvbox"
 
 # ── OMZ Behaviour ────────────────────────────────────────────────────────────
 zstyle ':omz:update' mode reminder    # remind to update, don't auto-update

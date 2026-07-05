@@ -75,7 +75,7 @@ dotfiles/
 │   ├── gruvbox.zsh-theme   ← Custom Gruvbox Dark OMZ prompt
 │   ├── keybindings.zsh     ← bindkey & ZLE widgets
 │   ├── functions.zsh       ← mkcd, extract, fcd, serve, fs, fo…
-│   └── .tmux.conf          ← Tmux config (Catppuccin theme)
+│   └── .tmux.conf          ← Tmux config (Gruvbox Dark theme)
 │
 ├── config/
 │   ├── starship.toml       ← Starship prompt config (unused, kept for reference)
