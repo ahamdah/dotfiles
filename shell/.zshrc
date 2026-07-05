@@ -3,6 +3,14 @@
 # .zshrc — Entry point. Sources modular config files.
 # =============================================================================
 
+
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21
+export PATH=$JAVA_HOME/bin:$PATH
+export KUBECONFIG=~/.kube/rabtly-k3s.yaml
+
+export CLOUDFRONT_DIST_ID=EC47E1CAW8G7J
+
+
 # Guard: only run in interactive shells
 [[ -o interactive ]] || return
 
@@ -24,11 +32,6 @@ _source aliases.zsh     # all aliases (OS-aware)
 _source keybindings.zsh # bindkey + ZLE widgets
 _source functions.zsh   # shell functions (mkcd, extract, serve, etc.)
 
-# ── Prompt: Starship ─────────────────────────────────────────────────────────
-if command -v starship &>/dev/null; then
-  eval "$(starship init zsh)"
-fi
-
 # ── Smart cd: zoxide ─────────────────────────────────────────────────────────
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init zsh --cmd cd)"
@@ -47,3 +50,26 @@ if find "${ZDOTDIR:-$HOME}/.zcompdump" -mmin +1440 &>/dev/null 2>&1; then
 else
   compinit -C
 fi
+
+# Added by Antigravity
+export PATH="/Users/ahamdah/.antigravity/antigravity/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/ahamdah/.antigravity/antigravity/bin:$PATH"
+
+# Android SDK (added for Rabtly mobile)
+export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.3.13750724
+
+# bun completions
+[ -s "/Users/ahamdah/.bun/_bun" ] && source "/Users/ahamdah/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# Claude Code
+alias cc='claude --dangerously-skip-permissions'

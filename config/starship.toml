@@ -5,7 +5,7 @@
 
 # ── Global ────────────────────────────────────────────────────────────────────
 command_timeout = 1000
-add_newline = true
+add_newline = false
 
 # Custom format (order of prompt modules)
 format = """

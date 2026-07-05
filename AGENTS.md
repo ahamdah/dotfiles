@@ -10,11 +10,14 @@ dotfiles/
 │   ├── .zshrc              ← Sources all modules below
 │   ├── exports.zsh         ← PATH, env vars, tool exports
 │   ├── aliases.zsh         ← Aliases (cross-platform guarded)
-│   ├── plugins.zsh         ← OMZ plugin list + theme
+│   ├── plugins.zsh         ← OMZ plugin list + theme (ZSH_THEME="gruvbox")
+│   ├── gruvbox.zsh-theme   ← Custom Gruvbox Dark OMZ prompt
 │   ├── keybindings.zsh     ← bindkey + ZLE widgets
-│   └── .tmux.conf          ← Tmux (Catppuccin theme, TPM)
+│   └── .tmux.conf          ← Tmux (Gruvbox Dark theme, TPM)
 ├── config/
-│   ├── starship.toml       ← Starship prompt (Catppuccin)
+│   ├── starship.toml       ← Starship prompt config (unused — zsh prompt is the OMZ gruvbox theme)
+│   ├── iterm2/
+│   │   └── DynamicProfiles/gruvbox.json  ← iTerm2 Gruvbox Dark profile (auto-loaded)
 │   ├── git/
 │   │   ├── .gitconfig
 │   │   └── .gitignore_global
@@ -105,10 +108,11 @@ fi
 
 | Tool | Note |
 |------|------|
-| `starship` | Configured in `config/starship.toml`, Catppuccin palette |
+| `starship` | `config/starship.toml` still exists but is no longer sourced in `.zshrc` — the zsh prompt is the OMZ `gruvbox` theme instead |
 | `zoxide` | Replaces `cd` — init'd with `--cmd cd` in `.zshrc` |
 | `eza` | Replaces `ls` — only aliased if binary exists (safe) |
 | `bat` | Replaces `cat` — only aliased if binary exists |
 | `delta` | Git pager — configured in `config/git/.gitconfig` |
 | `nvm` | Sourced in `exports.zsh`, not `.zshrc` directly |
-| `tmux` | Prefix is `Ctrl+a`; plugins auto-restore sessions |
+| `tmux` | Prefix is `Ctrl+Space` (or `Ctrl+b`); plugins auto-restore sessions |
+| `iTerm2` | Gruvbox Dark dynamic profile, symlinked by `link.sh`; `scripts/macos.sh` sets it as default |
