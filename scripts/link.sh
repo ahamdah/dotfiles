@@ -83,6 +83,39 @@ ensure_zsh_plugins() {
   done
 }
 
+# ── Wire Claude Code lifecycle hooks into ~/.claude/settings.json ─────────────
+# These feed claude-tmux-hook.sh so the tmux status bar can show, per window,
+# whether the Claude agent there is free / busy / waiting. settings.json is
+# merged (not symlinked) because Claude Code writes to it itself. Idempotent:
+# re-running just overwrites our four hook entries and leaves the rest intact.
+wire_claude_hooks() {
+  local settings="$HOME/.claude/settings.json"
+  local hook='~/.claude-tmux-hook.sh'
+
+  if ! command -v jq >/dev/null 2>&1; then
+    log_warn "jq not found — skipping Claude tmux hooks (install jq, then re-run)"
+    return
+  fi
+
+  mkdir -p "$(dirname "$settings")"
+  [[ -f "$settings" ]] || echo '{}' > "$settings"
+
+  local tmp
+  tmp="$(mktemp)"
+  jq \
+    --arg busy    "$hook busy" \
+    --arg free    "$hook free" \
+    --arg waiting "$hook waiting" \
+    --arg clear   "$hook clear" \
+    '.hooks.UserPromptSubmit = [ { hooks: [ { type: "command", command: $busy    } ] } ]
+   | .hooks.Stop            = [ { hooks: [ { type: "command", command: $free    } ] } ]
+   | .hooks.Notification    = [ { hooks: [ { type: "command", command: $waiting } ] } ]
+   | .hooks.SessionEnd      = [ { hooks: [ { type: "command", command: $clear   } ] } ]' \
+    "$settings" > "$tmp" && mv "$tmp" "$settings"
+
+  log_success "Wired Claude tmux hooks into ${settings/$HOME/\~}"
+}
+
 # ── Symlink the custom Gruvbox Oh My Zsh theme ────────────────────────────────
 link_zsh_theme() {
   local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
@@ -100,6 +133,7 @@ echo -e "\n${BOLD}=== Dotfiles Symlink Setup ===${RESET}\n"
 
 ensure_zsh_plugins
 link_zsh_theme
+wire_claude_hooks
 
 # Shell
 # (.zshrc resolves its own symlink and sources the *.zsh modules straight from
@@ -108,6 +142,7 @@ link "$DOTFILES_DIR/shell/.zshenv"    "$HOME/.zshenv"
 link "$DOTFILES_DIR/shell/.zshrc"     "$HOME/.zshrc"
 link "$DOTFILES_DIR/shell/.tmux.conf" "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/shell/tmux-stats.sh" "$HOME/.tmux-stats.sh"
+link "$DOTFILES_DIR/shell/claude-tmux-hook.sh" "$HOME/.claude-tmux-hook.sh"
 
 # Starship
 link "$DOTFILES_DIR/config/starship.toml" "$HOME/.config/starship.toml"
