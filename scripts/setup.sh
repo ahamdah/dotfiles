@@ -130,6 +130,18 @@ setup_macos() {
   else
     log_warn "nvm already installed"
   fi
+
+  # Node LTS. Pin `default` to the floating lts/* alias rather than a concrete
+  # version — nvm's first install pins `default` to that exact major, which
+  # silently strands new shells on an old Node long after `nvm install --lts`
+  # has fetched a newer one.
+  if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+    # shellcheck source=/dev/null
+    source "$HOME/.nvm/nvm.sh"
+    nvm install --lts
+    nvm alias default 'lts/*'
+    log_success "Node $(node --version) installed and set as default"
+  fi
 }
 
 # =============================================================================

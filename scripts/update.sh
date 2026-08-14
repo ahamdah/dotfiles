@@ -85,6 +85,9 @@ if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
   nvm install --lts --reinstall-packages-from=current 2>/dev/null \
     && log_ok "Node LTS updated ($(node --version))" \
     || log_skip "Node already at latest LTS"
+  # Re-point `default` at the floating alias. Without this, installing a new
+  # LTS leaves `default` on the old pinned major and new shells never move.
+  nvm alias default 'lts/*' >/dev/null 2>&1
 fi
 
 # ── Neovim plugins (lazy.nvim) ────────────────────────────────────────────────

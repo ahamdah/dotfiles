@@ -47,7 +47,8 @@ brew "tldr"         # Simplified man pages
 # ── Languages & Runtimes ──────────────────────────────────────────────────────
 brew "rustup"       # Rust toolchain manager
 brew "go"           # Go
-brew "node"         # Node.js
+# Node.js is managed by nvm (see shell/exports.zsh), not Homebrew. Don't add
+# brew "node" back — it shadows nvm for anything that doesn't source zshrc.
 brew "python@3.12"  # Python
 
 # ── DevOps & Cloud ────────────────────────────────────────────────────────────
