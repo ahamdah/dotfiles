@@ -3,11 +3,11 @@
 > **One command to get your full dev environment on a new machine.**
 
 ```bash
-git clone https://github.com/AhmdFahad/dotfiles.git ~/dotfiles
+git clone https://github.com/ahamdah/dotfiles.git ~/dotfiles
 cd ~/dotfiles && make install
 ```
 
-![CI](https://github.com/AhmdFahad/dotfiles/actions/workflows/check.yml/badge.svg)
+![CI](https://github.com/ahamdah/dotfiles/actions/workflows/check.yml/badge.svg)
 
 ---
 
@@ -42,6 +42,9 @@ cd ~/dotfiles && make install
 | [tmux](https://github.com/tmux/tmux) + TPM | Terminal multiplexer |
 | [nvm](https://github.com/nvm-sh/nvm) | Node version manager |
 | [Rust](https://rustup.rs) | Cargo + toolchain |
+| [glow](https://github.com/charmbracelet/glow) | Markdown rendered in the terminal (`md`) — via Brewfile |
+| [duti](https://github.com/moretension/duti) | Sets default apps per file type — via Brewfile, used by `make macos` |
+| .NET 8 SDK (LTS) | `dotnet` pinned to the 8.x keg — via Brewfile |
 
 > **Note:** `zsh-autosuggestions` and `zsh-syntax-highlighting` are **not** bundled with Oh My Zsh.
 > `make link` clones them automatically if missing.
@@ -82,20 +85,19 @@ dotfiles/
 │   ├── iterm2/
 │   │   ├── DynamicProfiles/gruvbox.json ← iTerm2 Gruvbox Dark profile
 │   │   └── preferences/com.googlecode.iterm2.plist ← Full iTerm2 settings (General, Key Mappings, …)
-│   ├── nvim/               ← Neovim (lazy.nvim + LSP + Catppuccin)
-│   │   ├── init.lua
-│   │   └── lua/
-│   │       ├── config/     ← options, keymaps, autocmds
-│   │       └── plugins/    ← all plugin specs
+│   ├── nvim/               ← Neovim (lazy.nvim + LSP + Gruvbox)
+│   │   ├── init.lua        ← options, keymaps, autocmds + lazy.nvim bootstrap
+│   │   ├── lazy-lock.json  ← pinned plugin revisions (commit this)
+│   │   ├── lua/plugins/    ← one file per plugin spec
+│   │   └── after/ftplugin/ ← per-filetype overrides (go.lua)
 │   ├── git/
 │   │   ├── .gitconfig      ← Global git config + aliases + delta
+│   │   ├── .gitconfig-work ← Work identity, pulled in per-repo via includeIf
 │   │   └── .gitignore_global
-│   ├── vscode/
-│   │   ├── settings.json
-│   │   ├── keybindings.json
-│   │   └── install-extensions.sh ← portable extension installer
-│   └── windows-terminal/
-│       └── settings.json
+│   └── vscode/
+│       ├── settings.json
+│       ├── keybindings.json
+│       └── install-extensions.sh ← portable extension installer
 │
 ├── scripts/
 │   ├── setup.sh            ← Full installer (macOS + Linux)
@@ -128,8 +130,46 @@ dotfiles/
 | `~/.config/nvim` | `config/nvim/` |
 | `~/.gitconfig` | `config/git/.gitconfig` |
 | `~/.gitignore_global` | `config/git/.gitignore_global` |
+| `~/.gitconfig-work` | `config/git/.gitconfig-work` |
 | VS Code `settings.json` | `config/vscode/settings.json` |
 | VS Code `keybindings.json` | `config/vscode/keybindings.json` |
+
+---
+
+## Git Identity (personal vs. work)
+
+`.gitconfig` commits as the **personal** identity by default. Work repos swap in
+the `rased.ai` address automatically — no per-clone `git config --local` needed,
+so a fresh clone on a new machine is already correct.
+
+The switch is driven by two `[includeIf]` rules at the bottom of `.gitconfig`,
+both pointing at `~/.gitconfig-work`:
+
+| Trigger | Matches |
+|---------|---------|
+| `hasconfig:remote.*.url:**/rased-org/**` | Any repo whose remote is in the `rased-org` GitHub org, wherever it's cloned |
+| `gitdir:~/Development/work/` | Anything under `~/Development/work/`, if that layout is ever adopted |
+
+The `hasconfig` rule is the one that does the work: it keys off the remote, not
+the directory, so moving or re-cloning a repo can't strand it on the wrong
+address. Includes are evaluated in file order and later values win, which is why
+those two blocks must stay at the **bottom** of `.gitconfig`.
+
+Check which identity a repo resolved to:
+
+```bash
+git whoami                      # alias for: git config user.email
+git config --show-origin user.email   # also shows which file supplied it
+```
+
+To add another work org, add its pattern alongside the existing `hasconfig`
+rule. To onboard a new machine, nothing extra — `make link` creates
+`~/.gitconfig-work` and the rules fire on their own.
+
+> **Note:** a missing include `path` is not an error in git. If
+> `~/.gitconfig-work` doesn't exist, work repos silently fall back to the
+> personal address rather than failing loudly — so if commits show the wrong
+> author, check that symlink first.
 
 ---
 
@@ -196,9 +236,17 @@ bash config/vscode/install-extensions.sh
 # 4. Install macOS apps
 make brew-bundle
 
-# 5. Apply macOS system defaults
+# 5. Apply macOS system defaults  ← must come AFTER step 4
 make macos
 
 # 6. Open Neovim (plugins auto-install via lazy.nvim)
 nvim
 ```
+
+> **Order matters for steps 4 and 5.** `macos.sh` binds every source and config
+> file type to VS Code using `duti`, which arrives with the Brewfile. That block
+> is guarded by `command -v duti`, so running it first just skips silently — no
+> error, no default-app bindings. `make install` offers to apply macOS defaults
+> partway through, *before* the Brewfile has been installed; that early pass is
+> fine, but run `make macos` again afterwards (step 5) to pick up the parts that
+> needed `duti`. Re-running is safe — every step is idempotent.
