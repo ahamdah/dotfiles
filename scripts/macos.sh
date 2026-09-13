@@ -126,6 +126,63 @@ defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
 log_ok "Activity Monitor: show all, sort by CPU"
 
+# ── Default Applications ──────────────────────────────────────────────────────
+# Xcode, TextEdit and Safari claim most developer file types out of the box.
+# With no explicit handler set, LaunchServices arbitrates and Xcode usually
+# wins — so pin every text / config / source format to VS Code.
+if command -v duti >/dev/null 2>&1 && [[ -d "/Applications/Visual Studio Code.app" ]]; then
+  log_step "Default applications"
+  VSCODE_ID="com.microsoft.VSCode"
+
+  # Content types (UTIs). Anything that resolves to one of these is covered by
+  # the type binding alone; `all` claims the viewer, editor and shell roles.
+  vscode_utis=(
+    public.plain-text
+    public.utf8-plain-text
+    public.source-code
+    public.script
+    public.shell-script
+    public.json
+    public.yaml
+    public.xml
+    public.comma-separated-values-text
+    public.tab-separated-values-text
+    public.delimited-values-text
+    net.daringfireball.markdown
+    org.tug.tex   # .tex
+  )
+  for uti in "${vscode_utis[@]}"; do
+    duti -s "$VSCODE_ID" "$uti" all 2>/dev/null || true
+  done
+
+  # Extensions. Most of these resolve to dynamic UTIs (dyn.ah62d4…) that the
+  # content-type bindings above don't cover, so bind them by suffix too.
+  vscode_exts=(
+    # data / config
+    json jsonc json5 jsonl ndjson geojson yaml yml toml ini cfg conf env
+    properties xml xsd xsl plist csv tsv lock
+    # docs / plain text
+    md markdown mdown mkd mdx rst adoc asciidoc txt text log
+    # javascript / typescript / web
+    js jsx mjs cjs ts tsx vue svelte astro css scss sass less
+    # other languages
+    py pyi rb go rs java kt kts swift scala clj cljs c h m mm cpp cc cxx hpp
+    cs php pl lua sh bash zsh fish ps1 bat r jl dart ex exs erl hs vim
+    # build / infra / misc
+    sql graphql gql proto tf tfvars hcl gradle groovy cmake mk mak diff patch
+  )
+  for ext in "${vscode_exts[@]}"; do
+    duti -s "$VSCODE_ID" ".$ext" all 2>/dev/null || true
+  done
+  log_ok "JSON/YAML/Markdown + ${#vscode_exts[@]} source & config extensions open in VS Code"
+  # Note: .html/.htm are deliberately left with the browser. To hand them to
+  # VS Code too: duti -s com.microsoft.VSCode .html all
+
+  # NB: do NOT run `lsregister -kill -r` here — rebuilding the LaunchServices
+  # database right after writing these bindings drops them. duti's changes
+  # take effect immediately on their own.
+fi
+
 # ── iTerm2 ────────────────────────────────────────────────────────────────────
 if [[ -d "/Applications/iTerm.app" ]]; then
   log_step "iTerm2"

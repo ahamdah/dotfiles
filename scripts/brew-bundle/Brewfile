@@ -22,10 +22,12 @@ brew "htop"
 brew "watch"
 brew "gnupg"        # GPG for commit signing
 brew "openssh"
+brew "duti"         # Set default apps per file type (used by scripts/macos.sh)
 
 # ── Modern CLI Replacements ───────────────────────────────────────────────────
 brew "eza"          # ls
 brew "bat"          # cat
+brew "glow"         # markdown viewer (renders .md in the terminal)
 brew "ripgrep"      # grep
 brew "fd"           # find
 brew "fzf"          # fuzzy finder
@@ -50,6 +52,8 @@ brew "go"           # Go
 # Node.js is managed by nvm (see shell/exports.zsh), not Homebrew. Don't add
 # brew "node" back — it shadows nvm for anything that doesn't source zshrc.
 brew "python@3.12"  # Python
+# .NET pinned to the 8.x LTS SDK; shell/exports.zsh puts this keg first in PATH.
+brew "dotnet@8"     # .NET SDK 8 (LTS)
 
 # ── DevOps & Cloud ────────────────────────────────────────────────────────────
 brew "docker-completion"
