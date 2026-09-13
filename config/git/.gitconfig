@@ -1,6 +1,6 @@
 [user]
-  name  = AhmdFahad
-  email = ahmd66699@gmail.com
+  name  = aabuhamdah
+  email = ahmd66699@gmail.com   # default identity; work repos override (see bottom)
 
 [core]
   editor        = nvim
@@ -77,3 +77,23 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
+
+# ── Work identity ─────────────────────────────────────────────────────────────
+# The default [user] above is the personal identity. Work repos swap in the
+# rased.ai address automatically via .gitconfig-work, which link.sh symlinks to
+# ~/.gitconfig-work. Includes are evaluated in file order and later values win,
+# so these MUST stay at the bottom of this file.
+#
+# Two triggers, because work repos aren't confined to one directory:
+#   1. hasconfig — any repo whose remote points at the rased-org GitHub org.
+#      This is the reliable one: it follows the repo, not where you cloned it,
+#      so a fresh clone on a new Mac gets the right identity with no setup.
+#   2. gitdir — anything under ~/Development/work/, if you ever adopt that
+#      layout. Harmless while the directory doesn't exist.
+#
+# Check which identity a repo resolved to with: git whoami
+[includeIf "hasconfig:remote.*.url:**/rased-org/**"]
+  path = ~/.gitconfig-work
+
+[includeIf "gitdir:~/Development/work/"]
+  path = ~/.gitconfig-work

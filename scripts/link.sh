@@ -154,8 +154,12 @@ if [[ "$(uname)" == "Darwin" && -d "/Applications/iTerm.app" ]]; then
 fi
 
 # Git
-link "$DOTFILES_DIR/config/git/.gitconfig"       "$HOME/.gitconfig"
+link "$DOTFILES_DIR/config/git/.gitconfig"        "$HOME/.gitconfig"
 link "$DOTFILES_DIR/config/git/.gitignore_global" "$HOME/.gitignore_global"
+# Work identity overlay. .gitconfig [includeIf]s this for rased-org repos, so
+# it must exist at this exact path or those repos silently fall back to the
+# personal address (a missing include path is not an error in git).
+link "$DOTFILES_DIR/config/git/.gitconfig-work"   "$HOME/.gitconfig-work"
 
 # Neovim
 link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"

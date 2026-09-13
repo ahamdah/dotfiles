@@ -52,7 +52,7 @@ check: ## Validate shell scripts and JSON configs
 
 clean: ## Remove all symlinks created by link.sh
 	@echo "Removing symlinks..."
-	@rm -f ~/.zshenv ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.gitignore_global
+	@rm -f ~/.zshenv ~/.zshrc ~/.tmux.conf ~/.gitconfig ~/.gitignore_global ~/.gitconfig-work
 	@rm -f ~/.config/starship.toml
 	@[ -L ~/.config/nvim ] && rm -f ~/.config/nvim || true
 	@rm -f ~/.config/zsh/*.zsh   # legacy module links from older link.sh

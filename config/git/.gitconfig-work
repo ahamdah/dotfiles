@@ -1,0 +1,14 @@
+# =============================================================================
+# .gitconfig-work — Work identity overlay
+#
+# NOT read on its own. ~/.gitconfig pulls it in via [includeIf] for repos that
+# belong to the rased-org GitHub org (or live under ~/Development/work/), so
+# work commits are authored with the work address while everything else stays
+# on the personal one. See the "Work identity" section at the bottom of
+# .gitconfig. link.sh symlinks this to ~/.gitconfig-work.
+#
+# Verify inside any repo with: git whoami
+# =============================================================================
+
+[user]
+  email = a.abuhamdah@rased.ai
