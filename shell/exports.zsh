@@ -23,7 +23,10 @@ export PAGER="less"
 # and anything else run later in this file, e.g. nvm.sh) even though PATH
 # looks fine again once .zshrc finishes.
 typeset -gU path
-path=("$HOME/.local/bin" "$HOME/bin" "$HOME/.cargo/bin" $path)
+# GOBIN holds binaries from `go install` (defaults to $(go env GOPATH)/bin).
+export GOPATH="${GOPATH:-$HOME/go}"
+export GOBIN="${GOBIN:-$GOPATH/bin}"
+path=("$HOME/.local/bin" "$HOME/bin" "$HOME/.cargo/bin" "$GOBIN" $path)
 export PATH
 
 # ── Oh My Zsh ─────────────────────────────────────────────────────────────────
@@ -33,6 +36,19 @@ export ZSH="$HOME/.oh-my-zsh"
 export NVM_DIR="$HOME/.nvm"
 [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
 [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+
+# ── .NET ──────────────────────────────────────────────────────────────────────
+# Pin `dotnet` to the .NET 8 LTS SDK. dotnet@8 is keg-only — dotnet@9 owns the
+# linked `dotnet` in $HOMEBREW_PREFIX/bin — so its bin dir must come first in
+# PATH to win. DOTNET_ROOT points things that don't go through PATH (IDEs,
+# apphosts, MSBuild-spawned processes) at the same install. To move to another
+# version, `brew install dotnet@N` and change the two paths below.
+if [[ -d "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/dotnet@8" ]]; then
+  export DOTNET_ROOT="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/dotnet@8/libexec"
+  export PATH="${HOMEBREW_PREFIX:-/opt/homebrew}/opt/dotnet@8/bin:$PATH"
+fi
+# Binaries from `dotnet tool install --global`
+[[ -d "$HOME/.dotnet/tools" ]] && export PATH="$HOME/.dotnet/tools:$PATH"
 
 # ── fzf ───────────────────────────────────────────────────────────────────────
 export FZF_DEFAULT_OPTS="
@@ -59,6 +75,17 @@ export BAT_THEME="Catppuccin Mocha"
 # ── Less ──────────────────────────────────────────────────────────────────────
 export LESS="-RFXi"
 export LESSHISTFILE="$HOME/.local/state/less/history"
+
+# ── VS Code ───────────────────────────────────────────────────────────────────
+# Use the CLI shipped inside the app bundle instead of VS Code's own
+# "Install 'code' command in PATH" helper. That helper writes a root-owned
+# symlink into /usr/local/bin pointing at wherever the app happened to be —
+# which, for a quarantined app, is a throwaway /AppTranslocation/... mount that
+# disappears on reboot, leaving a dangling `code` that fails as "command not
+# found". Prepended so it wins over any such stale symlink still in
+# /usr/local/bin. `code-insiders` users: add the Insiders bundle the same way.
+[[ -d "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ]] && \
+  export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 
 # ── Antigravity ───────────────────────────────────────────────────────────────
 [[ -d "$HOME/.antigravity/antigravity/bin" ]] && \

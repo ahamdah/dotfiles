@@ -35,6 +35,12 @@ if command -v bat &>/dev/null; then
   alias less="bat --paging=always"
 fi
 
+# Render markdown in the terminal: `md README.md`, or bare `md` for a browser
+# of every .md under the current directory.
+if command -v glow &>/dev/null; then
+  alias md="glow --pager"
+fi
+
 # ripgrep is invoked as `rg` — no alias needed
 # (the old `alias rg="ripgrep"` was wrong; the binary is already called `rg`)
 
