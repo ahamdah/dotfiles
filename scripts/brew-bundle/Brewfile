@@ -4,7 +4,8 @@
 # =============================================================================
 
 # ── Taps ─────────────────────────────────────────────────────────────────────
-tap "homebrew/cask-fonts"
+# homebrew/cask-fonts was deprecated and emptied — every font below now lives in
+# homebrew/cask, so tapping it just fails the whole bundle. Don't add it back.
 tap "jesseduffield/lazygit"
 
 # ── Core CLI Tools ────────────────────────────────────────────────────────────
@@ -70,7 +71,9 @@ cask "visual-studio-code"
 cask "warp"             # Modern terminal
 cask "raycast"          # Spotlight replacement
 cask "iterm2"           # Terminal emulator
-cask "docker"           # Docker Desktop
+# Renamed upstream from "docker". Its installer needs an admin password for
+# /usr/local/bin, so this one cask can't be installed unattended.
+cask "docker-desktop"   # Docker Desktop
 cask "arc"              # Browser
 cask "tableplus"        # Database GUI
 cask "postman"          # API client
