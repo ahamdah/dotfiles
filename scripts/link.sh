@@ -166,6 +166,13 @@ link "$DOTFILES_DIR/config/git/gh-credential-account.sh" "$HOME/.gh-credential-a
 # Neovim
 link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
+# Karabiner-Elements (macOS): Cmd+←/→ → word jumps system-wide. Link the whole
+# directory, not karabiner.json — Karabiner rewrites the file atomically, which
+# would replace a file symlink with a plain copy.
+if [[ "$(uname)" == "Darwin" ]]; then
+  link "$DOTFILES_DIR/config/karabiner" "$HOME/.config/karabiner"
+fi
+
 # VS Code — path differs by OS
 if [[ "$(uname)" == "Darwin" ]]; then
   VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"

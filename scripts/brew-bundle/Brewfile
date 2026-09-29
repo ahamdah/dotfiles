@@ -79,3 +79,4 @@ cask "tableplus"        # Database GUI
 cask "postman"          # API client
 cask "obsidian"         # Note-taking
 cask "rectangle"        # Window management (free)
+cask "karabiner-elements" # Key remapping (Cmd+←/→ word jumps)

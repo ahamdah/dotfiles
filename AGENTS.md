@@ -16,6 +16,8 @@ dotfiles/
 │   └── .tmux.conf          ← Tmux (Gruvbox Dark theme, TPM)
 ├── config/
 │   ├── starship.toml       ← Starship prompt config (unused — zsh prompt is the OMZ gruvbox theme)
+│   ├── karabiner/
+│   │   └── karabiner.json  ← Cmd+←/→ → word jumps system-wide (dir symlinked)
 │   ├── iterm2/
 │   │   └── DynamicProfiles/gruvbox.json  ← iTerm2 Gruvbox Dark profile (auto-loaded)
 │   ├── git/
@@ -116,3 +118,4 @@ fi
 | `nvm` | Sourced in `exports.zsh`, not `.zshrc` directly |
 | `tmux` | Prefix is `Ctrl+Space` (or `Ctrl+b`); plugins auto-restore sessions |
 | `iTerm2` | Gruvbox Dark dynamic profile, symlinked by `link.sh`; `scripts/macos.sh` sets it as default |
+| `Karabiner` | Cmd+←/→ → Option+←/→ (word jumps, Shift selects) , Cmd+↑/↓ → paragraph jumps (not in terminals/VS Code), and Cmd+Delete / Cmd+Fn+Delete → delete word (Ctrl+W / Esc d in terminals) in every app; iTerm2 profile also maps Cmd/Option+←/→ to ESC b/f so the terminal works without it |
