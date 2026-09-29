@@ -20,7 +20,7 @@ plugins=(
   web-search               # search from terminal: `google <query>`
   copyfile                 # `copyfile <file>` copies contents to clipboard
   copybuffer               # Ctrl+O copies current buffer to clipboard
-  dirhistory               # Alt+Left/Right navigate directory history
+  dirhistory               # Option+Up = parent dir (Option+Left/Right are word jumps, see keybindings.zsh)
   history                  # `h` for history, `hsi` for history search
   tmux                     # tmux aliases and auto-start
   vscode                   # `vsc` to open VS Code

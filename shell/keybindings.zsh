@@ -20,7 +20,15 @@ if [[ "$(uname)" == "Darwin" ]] && command -v fzf &>/dev/null; then
 fi
 
 # ── Shift-selection (text selection with Shift+Arrow keys) ───────────────────
+# Cmd+←/→ word jumps: Karabiner turns them into Option+←/→, which terminals send
+# as ESC b/f, ESC [1;3D/C or ESC ESC [D/C (ESC [1;4D/C with Shift). The m* rows
+# below claim all of them, taking Option+←/→ back from OMZ's dirhistory plugin
+# (it keeps Option+↑/↓ for parent/child dir).
 # Ref: https://stackoverflow.com/questions/5407916/zsh-zle-shift-selection
+
+# Draw the selection like iTerm2's mouse selection (Gruvbox bg2 / fg) instead
+# of zsh's default reverse video. paste:none stops pasted text lighting up too.
+zle_highlight=('region:bg=#504945,fg=#ebdbb2' 'paste:none')
 
 r-delregion() {
   if ((REGION_ACTIVE)); then
@@ -68,6 +76,14 @@ for key kcap seq mode widget in \
   cshome  x      $'\E[1;6H'  select     beginning-of-line \
   cleft   x      $'\E[1;5D'  deselect   backward-word \
   cright  x      $'\E[1;5C'  deselect   forward-word \
+  mleft   x      $'\Eb'      deselect   backward-word \
+  mright  x      $'\Ef'      deselect   forward-word \
+  mleft2  x      $'\E[1;3D'  deselect   backward-word \
+  mright2 x      $'\E[1;3C'  deselect   forward-word \
+  mleft3  x      $'\E\E[D'   deselect   backward-word \
+  mright3 x      $'\E\E[C'   deselect   forward-word \
+  msleft  x      $'\E[1;4D'  select     backward-word \
+  msright x      $'\E[1;4C'  select     forward-word \
   del     kdch1  $'\E[3~'    delregion  delete-char \
   bs      x      $'^?'       delregion  backward-delete-char \
 ; do

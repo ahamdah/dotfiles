@@ -201,7 +201,41 @@
       },
       "Use Bright Bold": true,
       "Use Cursor Guide": true,
-      "Minimum Contrast": 0
+      "Minimum Contrast": 0,
+      "Keyboard Map": {
+        "0xf702-0x300000": {
+          "Action": 10,
+          "Text": "b"
+        },
+        "0xf703-0x300000": {
+          "Action": 10,
+          "Text": "f"
+        },
+        "0xf702-0x280000": {
+          "Action": 10,
+          "Text": "b"
+        },
+        "0xf703-0x280000": {
+          "Action": 10,
+          "Text": "f"
+        },
+        "0xf702-0x320000": {
+          "Action": 10,
+          "Text": "[1;4D"
+        },
+        "0xf703-0x320000": {
+          "Action": 10,
+          "Text": "[1;4C"
+        },
+        "0xf702-0x2a0000": {
+          "Action": 10,
+          "Text": "[1;4D"
+        },
+        "0xf703-0x2a0000": {
+          "Action": 10,
+          "Text": "[1;4C"
+        }
+      }
     }
   ]
 }
