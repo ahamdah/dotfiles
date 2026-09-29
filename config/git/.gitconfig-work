@@ -2,13 +2,21 @@
 # .gitconfig-work — Work identity overlay
 #
 # NOT read on its own. ~/.gitconfig pulls it in via [includeIf] for repos that
-# belong to the rased-org GitHub org (or live under ~/Development/work/), so
-# work commits are authored with the work address while everything else stays
-# on the personal one. See the "Work identity" section at the bottom of
+# belong to the rased-org GitHub org (or live under ~/dev/rased/), so work
+# commits are authored with the work name and address while everything else
+# stays on the personal one. See the "Work identity" section at the bottom of
 # .gitconfig. link.sh symlinks this to ~/.gitconfig-work.
 #
 # Verify inside any repo with: git whoami
 # =============================================================================
 
 [user]
+  name  = aabuhamdah
   email = a.abuhamdah@rased.ai
+
+# Push/fetch as the work account too, not just commit as it. The empty
+# `helper =` discards the personal helper inherited from ~/.gitconfig;
+# includes append to multi-valued keys rather than replacing them.
+[credential "https://github.com"]
+  helper =
+  helper = !~/.gh-credential-account.sh aabuhamdah

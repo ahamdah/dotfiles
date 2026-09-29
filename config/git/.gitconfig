@@ -1,5 +1,5 @@
 [user]
-  name  = aabuhamdah
+  name  = AhmdFahad
   email = ahmd66699@gmail.com   # default identity; work repos override (see bottom)
 
 [core]
@@ -71,12 +71,23 @@
   newNormal    = green bold
   newHighlight = green bold 22
 
+# ── Credentials ───────────────────────────────────────────────────────────────
+# Pinned to the personal account, so pushes do not depend on which account
+# `gh auth switch` last made active. Work repos swap in the work account via
+# .gitconfig-work. The empty `helper =` clears any inherited helper first.
 [credential "https://github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+  helper =
+  helper = !~/.gh-credential-account.sh AhmdFahad
 [credential "https://gist.github.com"]
-	helper =
-	helper = !/opt/homebrew/bin/gh auth git-credential
+  helper =
+  helper = !~/.gh-credential-account.sh AhmdFahad
+
+# ── Git LFS ──────────────────────────────────────────────────────────────────
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 
 # ── Work identity ─────────────────────────────────────────────────────────────
 # The default [user] above is the personal identity. Work repos swap in the
@@ -88,12 +99,12 @@
 #   1. hasconfig — any repo whose remote points at the rased-org GitHub org.
 #      This is the reliable one: it follows the repo, not where you cloned it,
 #      so a fresh clone on a new Mac gets the right identity with no setup.
-#   2. gitdir — anything under ~/Development/work/, if you ever adopt that
-#      layout. Harmless while the directory doesn't exist.
+#   2. gitdir — anything under ~/dev/rased/, where the work repos are cloned.
+#      Catches a brand-new repo before its remote exists, which hasconfig can't.
 #
 # Check which identity a repo resolved to with: git whoami
 [includeIf "hasconfig:remote.*.url:**/rased-org/**"]
   path = ~/.gitconfig-work
 
-[includeIf "gitdir:~/Development/work/"]
+[includeIf "gitdir:~/dev/rased/"]
   path = ~/.gitconfig-work
