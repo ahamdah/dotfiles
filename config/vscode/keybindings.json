@@ -48,5 +48,17 @@
         "key": "alt+1",
         "command": "workbench.action.toggleSidebarVisibility",
         "when": "explorerViewletVisible"
+    },
+    // Windows-style Ctrl+Up/Down: scroll the view a line without moving the cursor
+    // (Karabiner leaves Cmd+Up/Down alone in VS Code so these see it)
+    {
+        "key": "cmd+up",
+        "command": "scrollLineUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "cmd+down",
+        "command": "scrollLineDown",
+        "when": "textInputFocus"
     }
 ]
