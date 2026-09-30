@@ -9,6 +9,87 @@
       "complex_modifications": {
         "rules": [
           {
+            "description": "Keep arrow keys working in the Cmd+Tab app switcher (skip the Cmd+Arrow remaps while it is open)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "tab",
+                  "modifiers": {
+                    "mandatory": [
+                      "command"
+                    ],
+                    "optional": [
+                      "shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "cmd_tab_switcher",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "tab",
+                    "modifiers": [
+                      "command"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "left_command",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_command"
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "cmd_tab_switcher",
+                      "value": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "right_command",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_command"
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "cmd_tab_switcher",
+                      "value": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Cmd+Left/Right moves by word (Shift+Cmd selects by word), like Ctrl+Arrow on Windows",
             "manipulators": [
               {
@@ -31,6 +112,13 @@
                       "option"
                     ]
                   }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "cmd_tab_switcher",
+                    "value": 1
+                  }
                 ]
               },
               {
@@ -52,6 +140,13 @@
                     "modifiers": [
                       "option"
                     ]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "cmd_tab_switcher",
+                    "value": 1
                   }
                 ]
               }
@@ -172,6 +267,11 @@
                       "^dev\\.warp\\.Warp-Stable$",
                       "^com\\.microsoft\\.VSCode$"
                     ]
+                  },
+                  {
+                    "type": "variable_unless",
+                    "name": "cmd_tab_switcher",
+                    "value": 1
                   }
                 ],
                 "from": {
@@ -205,6 +305,11 @@
                       "^dev\\.warp\\.Warp-Stable$",
                       "^com\\.microsoft\\.VSCode$"
                     ]
+                  },
+                  {
+                    "type": "variable_unless",
+                    "name": "cmd_tab_switcher",
+                    "value": 1
                   }
                 ],
                 "from": {
