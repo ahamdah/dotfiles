@@ -91,3 +91,10 @@ for key kcap seq mode widget in \
   zle -N "key-$key"
   bindkey "${terminfo[$kcap]-$seq}" "key-$key"
 done
+
+# Esc clears the selection (a bare ESC is otherwise undefined-key and just beeps).
+# ESC-prefixed sequences (ESC b, arrows, ...) still win: ZLE waits KEYTIMEOUT
+# for the rest of the sequence before falling back to this.
+key-escape() { ((REGION_ACTIVE = 0)) }
+zle -N key-escape
+bindkey '^[' key-escape
