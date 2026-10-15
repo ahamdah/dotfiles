@@ -163,6 +163,14 @@ link "$DOTFILES_DIR/config/git/.gitconfig-work"   "$HOME/.gitconfig-work"
 # Credential helper that both of the above point at by absolute path.
 link "$DOTFILES_DIR/config/git/gh-credential-account.sh" "$HOME/.gh-credential-account.sh"
 
+# lazygit — link only config.yml; lazygit writes state.yml next to it
+if [[ "$(uname)" == "Darwin" ]]; then
+  LAZYGIT_DIR="$HOME/Library/Application Support/lazygit"
+else
+  LAZYGIT_DIR="$HOME/.config/lazygit"
+fi
+link "$DOTFILES_DIR/config/lazygit/config.yml" "$LAZYGIT_DIR/config.yml"
+
 # Neovim
 link "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
 
